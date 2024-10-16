@@ -7,10 +7,15 @@ from planqk.service.client import PlanqkServiceClient
 consumer_key = os.getenv("CONSUMER_KEY", None)
 consumer_secret = os.getenv("CONSUMER_SECRET", None)
 service_endpoint = os.getenv("SERVICE_ENDPOINT", None)
+model_as_string_base64 = os.getenv("MODEL_AS_STRING_BASE64", None)
 
-with open("data/model.json") as f:
-    data = json.load(f)
-    model_as_string_base64 = data["model_as_string_base64"]
+if model_as_string_base64 is None:
+    logger.info("Model not specified by environment variable, load from json in data.")
+    with open("data/model.json") as f:
+        data = json.load(f)
+        model_as_string_base64 = data["model_as_string_base64"]
+        
+logger.info(model_as_string_base64)
 
 
 def estimate(series, cr, location, working_hours, year):
