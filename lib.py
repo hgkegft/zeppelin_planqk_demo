@@ -6,7 +6,7 @@ from planqk.service.client import PlanqkServiceClient
 consumer_key = os.getenv("CONSUMER_KEY", None)
 consumer_secret = os.getenv("CONSUMER_SECRET", None)
 service_endpoint = os.getenv("SERVICE_ENDPOINT", None)
-model_as_string_base64 = os.getenv("model_as_string_base64", None)
+model_as_string_base64 = os.getenv("MODEL_AS_STRING_BASE64", None)
 
 
 def estimate(series, location, working_hours, year):
