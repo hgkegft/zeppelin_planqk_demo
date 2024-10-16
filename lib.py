@@ -1,5 +1,4 @@
 import os
-import json
 
 from loguru import logger
 from planqk.service.client import PlanqkServiceClient
@@ -7,10 +6,24 @@ from planqk.service.client import PlanqkServiceClient
 consumer_key = os.getenv("CONSUMER_KEY", None)
 consumer_secret = os.getenv("CONSUMER_SECRET", None)
 service_endpoint = os.getenv("SERVICE_ENDPOINT", None)
+model_as_string_base64 = os.getenv("model_as_string_base64", None)
 
 
-def estimate():
-    ...
+def estimate(series, location, working_hours, year):
+
+    data = dict()
+    data["X_test"] = [[series, location, working_hours, year]]
+
+    params = dict()
+    params["mode"] = "predict"
+    params["model_as_string_base64"] = model_as_string_base64
+
+    result = execute_on_planqk(data, params)
+    if result["result"] is None:
+        msg = "Timeout: No valid result could be calculated in the given time."
+    else:
+        msg = result["result"]
+    return msg
 
 
 def execute_on_planqk(data=None, params=None):

@@ -92,4 +92,8 @@ def main_ui():
 
     @button.click(inputs=[series, location, working_hours, year], outputs=estimated_price)
     def on_click(series, location, working_hours, year):
-        return "0"
+        try:
+            estimated_price = str(estimate(series, location, working_hours, year))
+        except Exception as _:
+            estimated_price = "No valid estimation could be calculated."
+        return estimated_price
