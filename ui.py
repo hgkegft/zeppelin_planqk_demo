@@ -37,6 +37,12 @@ def main_ui():
                 value="C",
                 info="The series of the construction machine."
             )
+            cr = gr.Dropdown(
+                label="CR",
+                choices=[0, 1],
+                value=1,
+                info="CR."
+            )
             location = gr.Dropdown(
                 label="Location",
                 choices=[
@@ -64,13 +70,6 @@ def main_ui():
             )
         with gr.Column(scale=1):
             ...
-            # logo = gr.Image(
-            #     "data/Zeppelin_logo.png",
-            #     label="Zeppelin logo",
-            #     interactive=False,
-            #     show_download_button=False,
-            #     show_label=False
-            # )
     with gr.Row():
         with gr.Column():
             ...
@@ -90,10 +89,10 @@ def main_ui():
         with gr.Column():
             ...
 
-    @button.click(inputs=[series, location, working_hours, year], outputs=estimated_price)
-    def on_click(series, location, working_hours, year):
+    @button.click(inputs=[series, cr, location, working_hours, year], outputs=estimated_price)
+    def on_click(series, cr, location, working_hours, year):
         try:
-            estimated_price = str(estimate(series, location, working_hours, year))
+            estimated_price = str(estimate(series, cr, location, working_hours, year))
         except Exception as _:
             estimated_price = "No valid estimation could be calculated."
         return estimated_price

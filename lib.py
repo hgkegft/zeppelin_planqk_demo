@@ -9,10 +9,10 @@ service_endpoint = os.getenv("SERVICE_ENDPOINT", None)
 model_as_string_base64 = os.getenv("MODEL_AS_STRING_BASE64", None)
 
 
-def estimate(series, location, working_hours, year):
+def estimate(series, cr, location, working_hours, year):
 
     data = dict()
-    data["X_test"] = [[series, location, working_hours, year]]
+    data["X_test"] = [[series, cr, location, working_hours, year]]
 
     params = dict()
     params["mode"] = "predict"
