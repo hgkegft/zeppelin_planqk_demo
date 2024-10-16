@@ -12,6 +12,7 @@ logger.info(model_as_string_base64)
 
 
 def estimate(series, cr, location, working_hours, year):
+    logger.info("Start estimate...")
 
     data = dict()
     data["X_test"] = [[series, cr, location, working_hours, year]]
