@@ -8,11 +8,15 @@ consumer_secret = os.getenv("CONSUMER_SECRET", None)
 service_endpoint = os.getenv("SERVICE_ENDPOINT", None)
 model_as_string_base64 = os.getenv("MODEL_AS_STRING_BASE64", None)
 
+logger.info(model_as_string_base64)
+
 
 def estimate(series, cr, location, working_hours, year):
 
     data = dict()
     data["X_test"] = [[series, cr, location, working_hours, year]]
+
+    logger.info(model_as_string_base64)
 
     params = dict()
     params["mode"] = "predict"

@@ -81,7 +81,7 @@ def main_ui():
             button = gr.Button(value="start")
     with gr.Row():
         with gr.Column():
-            estimated_price = gr.Textbox(interactive=False)
+            estimated_price = gr.Textbox(label="Estimated price", interactive=False)
         with gr.Column():
             ...
         with gr.Column():
