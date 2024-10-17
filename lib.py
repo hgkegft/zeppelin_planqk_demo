@@ -33,13 +33,12 @@ def estimate(series, cr, location, working_hours, year):
     return msg
 
 
-def execute_on_planqk(data=None, params=None, params_ref=None):
-    logger.info(params)
+def execute_on_planqk(data=None, params_ref=None):
 
     client = PlanqkServiceClient(service_endpoint, consumer_key, consumer_secret)
     logger.info("Starting execution of the service...")
 
-    job = client.start_execution(data=data, params=params, params_ref=params_ref)
+    job = client.start_execution(data=data, params_ref=params_ref)
 
     MAX_TIME = 600
     timeout = 25
