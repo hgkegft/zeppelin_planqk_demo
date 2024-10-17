@@ -8,27 +8,19 @@ consumer_key = os.getenv("CONSUMER_KEY", None)
 consumer_secret = os.getenv("CONSUMER_SECRET", None)
 service_endpoint = os.getenv("SERVICE_ENDPOINT", None)
 
-with open("data/model.json") as f:
-    data = json.load(f)
-    model_as_string_base64 = data["model_as_string_base64"]
-
-logger.info(model_as_string_base64)
-
 
 def estimate(series, cr, location, working_hours, year):
     logger.info("Start estimate...")
 
-    data = dict()
-    data["X_test"] = [[series, cr, location, working_hours, year]]
-
-    logger.info(model_as_string_base64)
+    data_ref = {"dataPoolId": "95b5dd46-8188-4e3b-8fa3-cc6e2289d596",
+                "dataSourceDescriptorId": "3c1ed72a-a22f-4d93-9a69-32e6879c6dfc",
+                "fileId": "e2215756-711d-4b47-9012-af581bb57d7f"}
 
     params = dict()
-    params["mode"] = "predict"
-    params["model_as_string_base64"] = model_as_string_base64
+    params["X_test"] = [[series, cr, location, working_hours, year]]
 
     try:
-        result = execute_on_planqk(data, params)
+        result = execute_on_planqk(data_ref=data_ref, params=params)
         if result["result"] is None:
             msg = "Timeout: No valid result could be calculated in the given time."
         else:
@@ -41,13 +33,13 @@ def estimate(series, cr, location, working_hours, year):
     return msg
 
 
-def execute_on_planqk(data=None, params=None):
+def execute_on_planqk(data_ref=None, params=None):
     logger.info(params)
 
     client = PlanqkServiceClient(service_endpoint, consumer_key, consumer_secret)
     logger.info("Starting execution of the service...")
 
-    job = client.start_execution(data=data, params=params)
+    job = client.start_execution(data_ref=data_ref, params=params)
 
     MAX_TIME = 600
     timeout = 25
