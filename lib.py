@@ -14,7 +14,7 @@ if model_as_string_base64 is None:
     with open("data/model.json") as f:
         data = json.load(f)
         model_as_string_base64 = data["model_as_string_base64"]
-        
+
 logger.info(model_as_string_base64)
 
 
@@ -30,8 +30,8 @@ def estimate(series, cr, location, working_hours, year):
     params["mode"] = "predict"
     params["model_as_string_base64"] = model_as_string_base64
 
-    result = execute_on_planqk(data, params)
     try:
+        result = execute_on_planqk(data, params)
         if result["result"] is None:
             msg = "Timeout: No valid result could be calculated in the given time."
         else:
@@ -39,8 +39,8 @@ def estimate(series, cr, location, working_hours, year):
         logger.info(msg)
     except Exception as e:
         msg = str(e)
-        logger.error(result)
         logger.error(msg)
+
     return msg
 
 
