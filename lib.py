@@ -21,10 +21,12 @@ def estimate(series, cr, location, working_hours, year):
 
     try:
         result = execute_on_planqk(data_ref=data_ref, params=params)
-        if result["result"] is None:
-            msg = "Timeout: No valid result could be calculated in the given time."
-        else:
+        if "result" in result.keys():
             msg = result["result"]
+        elif "detail" in result.keys():
+            msg = f"{result['code']}: {result['detail']}"
+        else:
+            msg = "No valid return format."
         logger.info(msg)
     except Exception as e:
         msg = str(e)
